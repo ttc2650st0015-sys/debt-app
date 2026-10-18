@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>အထွေထွေပညာရေးအသုံးစရိတ်စာရင်း</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand-icon">▤<span>¥</span></div>
+  <div class="brand">
+    <h1>အထွေထွေပညာရေးအသုံးစရိတ်စာရင်း</h1>
+    <p>ဦးသုခရဲအောင်ထံမှအသုံးစရိတ်ထုတ်ယူမှုမှတ်တမ်း</p>
+  </div>
+  <div class="today"><span>▦</span><strong id="todayDate"></strong><span class="clock-icon">◷</span><strong id="todayTime"></strong></div>
+</header>
+
+<main class="page">
+  <section class="overview">
+    <div class="person">
+      <div class="avatar">●</div>
+      <div class="person-info">
+        <div class="person-name-line"><h2 id="displayName">အမည်မထည့်ရသေးပါ</h2><span class="tag"> ထောက်ပံ့သူ</span></div>
+        <p>☎ <span id="displayPhone">ဖုန်းနံပါတ်</span></p>
+        <p>▤ <span id="displayNote"> ထောက်ပံ့သူအချက်အလက်</span></p>
+      </div>
+      <button class="btn btn-outline edit-person" id="editPersonBtn">✎ ပြင်ဆင်</button>
+    </div>
+    <div class="metric metric-borrowed"><span class="metric-icon">↑</span><div><p>စုစုပေါင်းယူငွေ(ယန်း)</p><strong id="sumBorrowed">0 ယန်း</strong></div></div>
+    <div class="metric metric-paid"><span class="metric-icon">↓</span><div><p>စုစုပေါင်းပြန်ဆပ်ငွေ(ယန်း)</p><strong id="sumPaid">0 ယန်း</strong></div></div>
+    <div class="metric metric-balance"><span class="metric-icon">−</span><div><p>ကျန်ငွေ(ယန်း)</p><strong id="sumBalance">0 ယန်း</strong></div></div>
+  </section>
+
+  <section class="panel add-panel" id="entryPanel">
+    <h2 class="panel-title"><span class="title-icon">＋</span><span id="formHeading">စာရင်းအသစ်မှတ်ရန်</span></h2>
+    <form id="entryForm" class="entry-form">
+      <input id="editId" type="hidden">
+      <label>ရက်စွဲ <em>*</em><input type="date" id="date" required></label>
+      <label>အကြောင်းအရာ<em>*</em><input id="description" placeholder="ဥပမာ - ပထမအကြိမ်ယူငွေ" required maxlength="120"></label>
+      <label>ယူငွေ (ယန်း)<em>*</em><input id="borrow" type="number" min="0" step="1" placeholder="ဥပမာ - 100000" required></label>
+      <label>ပြန်ဆပ်ငွေ (ယန်း)<input id="paid" type="number" min="0" step="1" value="0" required></label>
+      <label class="note-field">မှတ်ချက်<input id="note" placeholder="မှတ်ချက် ထည့်ရန်"></label>
+      <div class="form-action"><button class="btn btn-primary" type="submit" id="saveBtn">▣ သိမ်းမည်</button><button class="btn btn-soft hidden" type="button" id="cancelBtn">မလုပ်တော့ပါ</button></div>
+    </form>
+    <p id="formError" class="error"></p>
+  </section>
+
+  <div class="content-grid">
+    <section class="panel records-panel">
+      <div class="records-heading">
+        <h2 class="panel-title"><span class="title-icon square">☰</span>စာရင်းများ</h2>
+        <div class="tools"><input type="search" id="search" placeholder="⌕  ရက်စွဲ၊ အကြောင်းအရာ ရှာဖွေရန်..."><button class="btn btn-soft" id="exportBtn">↓ CSV ထုတ်ယူရန်</button></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>ရက်စွဲ</th><th>အကြောင်းအရာ</th><th>ယူငွေ (ယန်း)</th><th>ပြန်ဆပ်ငွေ (ယန်း)</th><th>ကျန်ငွေ (ယန်း)</th><th>အခြေအနေ</th><th>လုပ်ဆောင်ချက်</th></tr></thead>
+          <tbody id="rows"><tr><td colspan="8" class="empty">မှတ်တမ်းမရှိသေးပါ။ အပေါ်က Form မှ ထည့်ပါ။</td></tr></tbody>
+        </table>
+      </div>
+      <div class="table-footer"><span id="recordCount">မှတ်တမ်းစုစုပေါင်း : 0 ခု</span><div class="pagination"><button disabled>‹</button><button class="current">1</button><button disabled>›</button></div></div>
+    </section>
+
+    <aside class="panel side-panel">
+      <h2 class="panel-title"><span class="bar-icon">▮▮▮</span> ငွေကြေးအကျဉ်း</h2>
+      <div class="side-person"><span>ထောက်ပံ့သူအမည်</span><strong id="sideName">အမည်မထည့်ရသေးပါ</strong><span>ဖုန်းနံပါတ်</span><strong id="sidePhone">—</strong></div>
+      <div class="side-total"><span>စုစုပေါင်းယူငွေ(ယန်း)</span><strong class="green" id="sideBorrowed">0 ကျပ်</strong></div>
+      <div class="side-total"><span>စုစုပေါင်းပြန်ဆပ်ငွေ(ယန်း)</span><strong class="blue" id="sidePaid">0 ကျပ်</strong></div>
+      <div class="side-total"><span>ကျန်ငွေ(ယန်း)</span><strong class="red" id="sideBalance">0 ကျပ်</strong></div>
+      <button class="btn btn-green full" id="newEntryBtn">＋ ငွေကြေးမှတ်တမ်းအသစ်</button>
+      <button class="btn btn-primary full" id="sideExportBtn">↓ CSV ထုတ်ယူရန်</button>
+      <button class="btn btn-danger full" id="clearBtn">▤ မှတ်တမ်းအားလုံးဖျက်ရန်</button>
+    </aside>
+  </div>
+</main>
+<footer>အထွေထွေပညာရေးအသုံးစရိတ်စာရင်း · ကိုယ်ပိုင်မှတ်တမ်းစီမံခန့်ခွဲမှု</footer>
+
+<dialog id="personDialog">
+  <form method="dialog" id="personForm">
+    <h2>ထောက်ပံ့သူအချက်အလက်</h2>
+    <label>အမည် <input id="personName" required maxlength="100"></label>
+    <label>ဖုန်းနံပါတ် <input id="personPhone" type="tel" required maxlength="50"></label>
+    <label>မှတ်ချက် <input id="personNote" maxlength="160" placeholder="ဥပမာ - မိတ်ဆွေ"></label>
+    <div class="dialog-actions"><button class="btn btn-soft" value="cancel">ပယ်ဖျက်</button><button class="btn btn-primary" id="personSave" value="save">သိမ်းမည်</button></div>
+  </form>
+</dialog>
+<script src="script.js"></script>
+</body>
+</html>
